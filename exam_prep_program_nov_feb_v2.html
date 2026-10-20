@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exam-Prep Program 11/5 – 2/18 — Tyson &amp; Keira</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f5f4f0; color: #2d2d2d; padding: 32px 20px; }
+  .page { max-width: 860px; margin: 0 auto; }
+  .lang-toggle { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+  .lang-btn { display: flex; background: #fff; border-radius: 24px; padding: 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.12); gap: 2px; }
+  .lang-btn button { border: none; cursor: pointer; padding: 7px 20px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; background: transparent; color: #888; }
+  .lang-btn button.active { background: #2d2d2d; color: #fff; }
+  .header { background: #2d2d2d; color: #fff; border-radius: 14px; padding: 28px 32px; margin-bottom: 20px; }
+  .header h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 14px; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .meta-chip { background: rgba(255,255,255,0.12); border-radius: 20px; padding: 4px 14px; font-size: 0.8rem; font-weight: 500; }
+  .tip { margin: 0 0 20px; padding: 12px 16px; border-radius: 10px; font-size: 0.85rem; line-height: 1.6; border-left: 3px solid #2d2d2d; background: #fff; }
+  .section-title { font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #888; margin: 28px 0 10px; }
+
+  .card { background: #fff; border-radius: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); padding: 18px 22px; margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th { text-align: left; font-size: 0.72rem; letter-spacing: 0.5px; text-transform: uppercase; color: #999; padding: 6px 8px; border-bottom: 1px solid #eee; }
+  td { padding: 8px; border-bottom: 1px solid #f3f1ec; vertical-align: top; line-height: 1.5; }
+  tr:last-child td { border-bottom: none; }
+  .min { font-weight: 700; white-space: nowrap; }
+  .skill { display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: #2d2d2d; color: #ffc94d; white-space: nowrap; }
+
+  .timeline { display: flex; border-radius: 8px; overflow: hidden; height: 10px; margin: 4px 0 14px; }
+  .timeline div { height: 100%; }
+
+  .phase { background: #fff; border-radius: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); margin-bottom: 18px; overflow: hidden; }
+  .phase-head { padding: 16px 22px; color: #fff; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .phase-head .pt { font-weight: 700; font-size: 1.05rem; }
+  .phase-head .pd { font-size: 0.8rem; opacity: 0.9; }
+  .phase-goal { padding: 12px 22px; font-size: 0.85rem; color: #555; border-bottom: 1px solid #f0eeea; line-height: 1.6; }
+  .weeks { padding: 14px 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 12px; }
+  .week { border: 1px solid #ece9e2; border-radius: 12px; padding: 12px 14px; background: #fcfbf9; }
+  .week-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+  .wk { font-weight: 800; font-size: 0.85rem; color: #fff; border-radius: 8px; padding: 2px 8px; }
+  .date { font-weight: 700; font-size: 0.85rem; color: #555; }
+  .wk-title { font-weight: 700; font-size: 0.92rem; flex: 1; }
+  .tag { font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+  .tag.new { background: #e9f7ed; color: #2d7d42; }
+  .tag.review { background: #e6f0fb; color: #2f6fb0; }
+  .tag.check { background: #fdecda; color: #c25b00; }
+  .tag.mock { background: #fdeef0; color: #b02535; }
+  .row { display: grid; grid-template-columns: 78px 1fr; gap: 6px; font-size: 0.82rem; padding: 3px 0; line-height: 1.45; }
+  .k { color: #999; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.4px; padding-top: 2px; }
+  .break { grid-column: 1 / -1; text-align: center; font-size: 0.85rem; font-weight: 600; color: #888; padding: 10px; border: 1px dashed #ccc; border-radius: 12px; background: #fff; }
+
+  .p1 .phase-head, .p1 .wk { background: #3aada6; }
+  .p2 .phase-head, .p2 .wk { background: #8a63d2; }
+  .p3 .phase-head, .p3 .wk { background: #e05a6a; }
+  .p4 .phase-head, .p4 .wk { background: #d4a017; }
+
+  .footer { text-align: center; font-size: 0.75rem; color: #aaa; margin-top: 28px; }
+  [data-lang] { display: none; }
+  body.lang-en [data-lang="en"] { display: revert; }
+  body.lang-zh [data-lang="zh"] { display: revert; }
+  span[data-lang] { display: none; }
+  body.lang-en span[data-lang="en"] { display: inline; }
+  body.lang-zh span[data-lang="zh"] { display: inline; }
+  @media print { body { background: #fff; padding: 0; } .lang-toggle { display: none; } .card, .phase { box-shadow: none; border: 1px solid #eee; } .week { break-inside: avoid; } }
+</style>
+</head>
+<body class="lang-en">
+<div class="page">
+
+  <div class="lang-toggle"><div class="lang-btn">
+    <button id="btn-en" class="active" onclick="setLang('en')">English</button>
+    <button id="btn-zh" onclick="setLang('zh')">中文</button>
+  </div></div>
+
+  <div class="header">
+    <h1>
+      <span data-lang="en">Exam-Prep Program — <span style="color:#ffc94d">11/5 to 2/18</span></span>
+      <span data-lang="zh">入學檢測準備課程 — <span style="color:#ffc94d">11/5 至 2/18</span></span>
+    </h1>
+    <div class="meta-row">
+      <span class="meta-chip">📅 <span data-lang="en">14 classes · Thursdays</span><span data-lang="zh">共14堂 · 每週四</span></span>
+      <span class="meta-chip">⏱ <span data-lang="en">90 min each</span><span data-lang="zh">每堂90分鐘</span></span>
+      <span class="meta-chip">🎯 <span data-lang="en">Goal: Grade 1 entry camp assessment (Feb)</span><span data-lang="zh">目標：小一新生體驗營檢測（二月）</span></span>
+      <span class="meta-chip">📍 Tyson &amp; Keira</span>
+    </div>
+  </div>
+
+  <div class="tip">
+    <span data-lang="en">📌 <strong>Calendar notes:</strong> no class on 12/31 (New Year's Eve) or 2/4 (official Lunar New Year break 2/4–2/10). Exam date to be confirmed; if it falls right after 2/18, keep Week 14 light.</span>
+    <span data-lang="zh">📌 <strong>行事曆提醒：</strong>12/31（跨年夜）與 2/4（農曆春節連假 2/4–2/10）停課。檢測日期待確認；如果緊接在 2/18 之後，第14週以輕鬆複習為主。</span>
+  </div>
+
+  <!-- Exam at a glance -->
+  <div class="section-title"><span data-lang="en">What the exam checks — and how we train it</span><span data-lang="zh">檢測內容與訓練方式</span></div>
+  <div class="card">
+    <table>
+      <tr><th><span data-lang="en">Exam area</span><span data-lang="zh">檢測項目</span></th><th><span data-lang="en">What the child must do</span><span data-lang="zh">孩子需要做到</span></th><th><span data-lang="en">How we train it every class</span><span data-lang="zh">每堂課的訓練方式</span></th></tr>
+      <tr><td><span class="skill">26 字母讀寫</span></td><td><span data-lang="en">Read and write all 26 letters, upper and lowercase</span><span data-lang="zh">26個大小寫字母會讀會寫</span></td><td><span data-lang="en">5-min letter warm-up: matching, then writing, then letter dictation</span><span data-lang="zh">5分鐘字母暖身：配對 → 書寫 → 字母聽寫</span></td></tr>
+      <tr><td><span class="skill">英文字彙</span></td><td><span data-lang="en">Look at a picture, choose the right word</span><span data-lang="zh">看圖選字</span></td><td><span data-lang="en">A new vocabulary theme each week + Picture Pick worksheet in the test format</span><span data-lang="zh">每週一個字彙主題 + 考試題型的看圖選字練習單</span></td></tr>
+      <tr><td><span class="skill">自然發音</span></td><td><span data-lang="en">Hear a word, identify the first / last / vowel sound</span><span data-lang="zh">聽單字，分辨首音 / 尾音 / 母音</span></td><td><span data-lang="en">5-min Sound Spotter listening drill + phonics core (see weekly plan)</span><span data-lang="zh">5分鐘「聲音偵探」聽辨練習 + 自然發音主課（見每週計畫）</span></td></tr>
+      <tr><td><span class="skill">短篇故事</span></td><td><span data-lang="en">Read a short story and answer questions</span><span data-lang="zh">閱讀短篇故事並回答問題</span></td><td><span data-lang="en">Storytime questions → shared reading → reading alone (builds up over the program)</span><span data-lang="zh">故事時間提問 → 共讀 → 獨立閱讀（逐步進階）</span></td></tr>
+      <tr><td><span class="skill">口語應對</span></td><td><span data-lang="en">Answer simple questions in full sentences</span><span data-lang="zh">用完整句子回答簡單問題</span></td><td><span data-lang="en">Question of the week — answers need full sentences, a reason ("because…") or 2–3 sentences</span><span data-lang="zh">每週一問——需用完整句子、說明原因（because…）或用2–3句回答</span></td></tr>
+    </table>
+    <p style="font-size:0.78rem; color:#999; margin-top:10px;">
+      <span data-lang="en">The exam's Chinese math/logic part is not covered in these classes.</span>
+      <span data-lang="zh">檢測中的中文數理邏輯部分不在本課程範圍內。</span>
+    </p>
+  </div>
+
+  <!-- Every class -->
+  <div class="section-title"><span data-lang="en">Every class — same 90-min structure</span><span data-lang="zh">每堂課固定的90分鐘流程</span></div>
+  <div class="card">
+    <div class="timeline">
+      <div style="flex:5;background:#e07a2d"></div><div style="flex:5;background:#ffb347"></div><div style="flex:5;background:#d4a017"></div><div style="flex:30;background:#3aada6"></div><div style="flex:10;background:#e05a6a"></div><div style="flex:10;background:#52b369"></div><div style="flex:20;background:#3a7bc8"></div><div style="flex:5;background:#bbb"></div>
+    </div>
+    <table>
+      <tr><th><span data-lang="en">Min</span><span data-lang="zh">分鐘</span></th><th><span data-lang="en">Block</span><span data-lang="zh">段落</span></th><th><span data-lang="en">Exam skill</span><span data-lang="zh">檢測能力</span></th></tr>
+      <tr><td class="min">5</td><td><span data-lang="en">Question of the week (oral warm-up)</span><span data-lang="zh">每週一問（口說暖身）</span></td><td><span class="skill">口語應對</span></td></tr>
+      <tr><td class="min">5</td><td><span data-lang="en">Letter warm-up</span><span data-lang="zh">字母暖身</span></td><td><span class="skill">26 字母讀寫</span></td></tr>
+      <tr><td class="min">5</td><td><span data-lang="en">Sound Spotter: you say a word, the kids show the first / middle / last letter (letter cards or Feed the Monster)</span><span data-lang="zh">聲音偵探：老師唸一個字，孩子舉出首音 / 中間母音 / 尾音的字母（字母卡或餵怪獸）</span></td><td><span class="skill">自然發音</span></td></tr>
+      <tr><td class="min">30</td><td><span data-lang="en">Phonics core + game</span><span data-lang="zh">自然發音主課 + 遊戲</span></td><td><span class="skill">自然發音</span></td></tr>
+      <tr><td class="min">10</td><td><span data-lang="en">Vocabulary theme + Picture Pick</span><span data-lang="zh">字彙主題 + 看圖選字</span></td><td><span class="skill">英文字彙</span></td></tr>
+      <tr><td class="min">10</td><td><span data-lang="en">Sight words (needed for reading stories)</span><span data-lang="zh">常見字（閱讀故事必備）</span></td><td><span class="skill">短篇故事</span></td></tr>
+      <tr><td class="min">20</td><td><span data-lang="en">Storytime + questions</span><span data-lang="zh">故事時間 + 提問</span></td><td><span class="skill">短篇故事</span></td></tr>
+      <tr><td class="min">5</td><td><span data-lang="en">Wind-down</span><span data-lang="zh">課程收尾</span></td><td>—</td></tr>
+    </table>
+    <p style="font-size:0.8rem; color:#777; margin-top:10px;">
+      <span data-lang="en"><strong>Balance:</strong> about 60% review in the test format and 40% new content that fills exam gaps. Each week has a fun theme so it never feels like test drilling.</span>
+      <span data-lang="zh"><strong>比例：</strong>約60%以考試題型複習舊內容，40%補足檢測所需的新內容。每週都有趣味主題，避免變成單純的考試練習。</span>
+    </p>
+  </div>
+
+  <!-- Legend -->
+  <div class="section-title"><span data-lang="en">Week-by-week plan</span><span data-lang="zh">每週課程計畫</span></div>
+  <p style="font-size:0.8rem; color:#777; margin-bottom:12px;">
+    <span class="tag new"><span data-lang="en">New</span><span data-lang="zh">新內容</span></span>&nbsp;
+    <span class="tag review"><span data-lang="en">Review (test format)</span><span data-lang="zh">複習（考試題型）</span></span>&nbsp;
+    <span class="tag check"><span data-lang="en">Check</span><span data-lang="zh">檢核</span></span>&nbsp;
+    <span class="tag mock"><span data-lang="en">Mock test</span><span data-lang="zh">模擬測驗</span></span>
+  </p>
+
+  <div class="phase p1">
+    <div class="phase-head"><span class="pt"><span data-lang="en">Phase 1 — Vowels &amp; Letters</span><span data-lang="zh">第一階段 — 母音與字母</span></span><span class="pd">11/5 – 11/26</span></div>
+    <div class="phase-goal"><span data-lang="en">Start straight away: train vowel sounds by listening (short e vs i is the hardest), secure all 26 letters, then add ending sounds.</span><span data-lang="zh">直接開始：以聽辨方式訓練母音（短母音 e 和 i 最容易混淆），熟練26個字母，再加入尾音。</span></div>
+    <div class="weeks">
+      <div class="week">
+        <div class="week-head"><span class="wk">W1</span><span class="date">11/5</span><span class="wk-title"><span data-lang="en">Zoo Day</span><span data-lang="zh">動物園</span></span><span class="tag review"><span data-lang="en">Review</span><span data-lang="zh">複習</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Phonics</span><span data-lang="zh">發音</span></span><span><span data-lang="en">Short a / e / i by listening (focus on e vs i)</span><span data-lang="zh">短母音 a / e / i 聽辨（加強 e 和 i）</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Letters</span><span data-lang="zh">字母</span></span><span><span data-lang="en">Quick 26-letter check, then Aa – Mm: match &amp; write</span><span data-lang="zh">26個字母快速檢查，接著 Aa – Mm：配對與書寫</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Vocab</span><span data-lang="zh">字彙</span></span><span><span data-lang="en">Animals</span><span data-lang="zh">動物</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Oral</span><span data-lang="zh">口說</span></span><span>What animal do you like? Why? — I like ___ because ___.</span></div>
+        <div class="row"><span class="k"><span data-lang="en">Reading</span><span data-lang="zh">閱讀</span></span><span><span data-lang="en">Storytime + Who? What?</span><span data-lang="zh">故事時間 + 誰？發生什麼？</span></span></div>
+      </div>
+      <div class="week">
+        <div class="week-head"><span class="wk">W2</span><span class="date">11/12</span><span class="wk-title"><span data-lang="en">Monster Café</span><span data-lang="zh">怪獸餐廳</span></span><span class="tag review"><span data-lang="en">Review</span><span data-lang="zh">複習</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Phonics</span><span data-lang="zh">發音</span></span><span><span data-lang="en">Short o / u + all CVC words</span><span data-lang="zh">短母音 o / u + 所有 CVC 單字</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Letters</span><span data-lang="zh">字母</span></span><span><span data-lang="en">Nn – Zz: match &amp; write</span><span data-lang="zh">Nn – Zz：配對與書寫</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Vocab</span><span data-lang="zh">字彙</span></span><span><span data-lang="en">Food &amp; fruit</span><span data-lang="zh">食物與水果</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Oral</span><span data-lang="zh">口說</span></span><span>What did you eat for breakfast? — I ate ___.</span></div>
+        <div class="row"><span class="k"><span data-lang="en">Reading</span><span data-lang="zh">閱讀</span></span><span><span data-lang="en">Storytime + Who? What?</span><span data-lang="zh">故事時間 + 誰？發生什麼？</span></span></div>
+      </div>
+      <div class="week">
+        <div class="week-head"><span class="wk">W3</span><span class="date">11/19</span><span class="wk-title"><span data-lang="en">Rainbow Hunt</span><span data-lang="zh">彩虹尋寶</span></span><span class="tag review"><span data-lang="en">Review</span><span data-lang="zh">複習</span></span><span class="tag check"><span data-lang="en">Mini check 1</span><span data-lang="zh">小檢核1</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Phonics</span><span data-lang="zh">發音</span></span><span><span data-lang="en">Beginning sounds &amp; blends in test format (quick)</span><span data-lang="zh">首音與混合音（考試題型，快速複習）</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Letters</span><span data-lang="zh">字母</span></span><span><span data-lang="en">b / d / p / q (easily mixed up)</span><span data-lang="zh">b / d / p / q（容易混淆）</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Vocab</span><span data-lang="zh">字彙</span></span><span><span data-lang="en">Colors &amp; shapes</span><span data-lang="zh">顏色與形狀</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Oral</span><span data-lang="zh">口說</span></span><span>Describe the picture. — There is a ___ on the ___.</span></div>
+        <div class="row"><span class="k"><span data-lang="en">Reading</span><span data-lang="zh">閱讀</span></span><span><span data-lang="en">Storytime + Who? What? Where?</span><span data-lang="zh">故事時間 + 誰？什麼？哪裡？</span></span></div>
+      </div>
+      <div class="week">
+        <div class="week-head"><span class="wk">W4</span><span class="date">11/26</span><span class="wk-title"><span data-lang="en">Simon Says</span><span data-lang="zh">老師說</span></span><span class="tag new"><span data-lang="en">New</span><span data-lang="zh">新內容</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Phonics</span><span data-lang="zh">發音</span></span><span><span data-lang="en">Ending sounds: single letters + -ck, -ff, -ss, -ll</span><span data-lang="zh">尾音：單一字母 + -ck、-ff、-ss、-ll</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Letters</span><span data-lang="zh">字母</span></span><span><span data-lang="en">Upper ↔ lowercase speed match</span><span data-lang="zh">大小寫快速配對</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Vocab</span><span data-lang="zh">字彙</span></span><span><span data-lang="en">Body parts</span><span data-lang="zh">身體部位</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Oral</span><span data-lang="zh">口說</span></span><span>How do you feel today? Why? — I feel ___ because ___.</span></div>
+        <div class="row"><span class="k"><span data-lang="en">Reading</span><span data-lang="zh">閱讀</span></span><span><span data-lang="en">Storytime + Who? What? Where?</span><span data-lang="zh">故事時間 + 誰？什麼？哪裡？</span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p2">
+    <div class="phase-head"><span class="pt"><span data-lang="en">Phase 2 — Endings &amp; Vowel Patterns</span><span data-lang="zh">第二階段 — 尾音與母音規則</span></span><span class="pd">12/3 – 12/24</span></div>
+    <div class="phase-goal"><span data-lang="en">New content: ending blends and the first vowel teams. Review short vs long vowels. Letters move from matching to writing and dictation.</span><span data-lang="zh">新內容：結尾混合音與第一組母音組合。複習長短母音。字母從配對進階到書寫與聽寫。</span></div>
+    <div class="weeks">
+      <div class="week">
+        <div class="week-head"><span class="wk">W5</span><span class="date">12/3</span><span class="wk-title"><span data-lang="en">Family Photo</span><span data-lang="zh">全家福</span></span><span class="tag new"><span data-lang="en">New</span><span data-lang="zh">新內容</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Phonics</span><span data-lang="zh">發音</span></span><span><span data-lang="en">Ending blends -st, -nd, -ng, -nk (+ -nt, -mp review)</span><span data-lang="zh">結尾混合音 -st、-nd、-ng、-nk（+ 複習 -nt、-mp）</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Letters</span><span data-lang="zh">字母</span></span><span><span data-lang="en">Writing on lines (tall / short / tail letters)</span><span data-lang="zh">在格線上書寫（高字母 / 矮字母 / 有尾巴的字母）</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Vocab</span><span data-lang="zh">字彙</span></span><span><span data-lang="en">Family</span><span data-lang="zh">家人</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Oral</span><span data-lang="zh">口說</span></span><span><span data-lang="en">Tell me about your family (2–3 sentences).</span><span data-lang="zh">介紹你的家人（2–3句）。</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Reading</span><span data-lang="zh">閱讀</span></span><span><span data-lang="en">+ Retell: what happened first / last?</span><span data-lang="zh">+ 重述：先發生什麼 / 最後發生什麼？</span></span></div>
+      </div>
+      <div class="week">
+        <div class="week-head"><span class="wk">W6</span><span class="date">12/10</span><span class="wk-title"><span data-lang="en">Dress-Up Show</span><span data-lang="zh">換裝秀</span></span><span class="tag review"><span data-lang="en">Review</span><span data-lang="zh">複習</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Phonics</span><span data-lang="zh">發音</span></span><span><span data-lang="en">Short vs long vowels (cap → cape)</span><span data-lang="zh">長短母音對比（cap → cape）</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Letters</span><span data-lang="zh">字母</span></span><span><span data-lang="en">Letter dictation (5 letters)</span><span data-lang="zh">字母聽寫（5個）</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Vocab</span><span data-lang="zh">字彙</span></span><span><span data-lang="en">Clothes</span><span data-lang="zh">衣物</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Oral</span><span data-lang="zh">口說</span></span><span>What are you wearing today? — I am wearing ___.</span></div>
+        <div class="row"><span class="k"><span data-lang="en">Reading</span><span data-lang="zh">閱讀</span></span><span><span data-lang="en">+ Retell: what happened first / last?</span><span data-lang="zh">+ 重述：先發生什麼 / 最後發生什麼？</span></span></div>
+      </div>
+      <div class="week">
+        <div class="week-head"><span class="wk">W7</span><span class="date">12/17</span><span class="wk-title"><span data-lang="en">School Day</span><span data-lang="zh">上學去</span></span><span class="tag new"><span data-lang="en">New</span><span data-lang="zh">新內容</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Phonics</span><span data-lang="zh">發音</span></span><span><span data-lang="en">Vowel teams ee / ea / oa</span><span data-lang="zh">母音組合 ee / ea / oa</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Letters</span><span data-lang="zh">字母</span></span><span><span data-lang="en">Letter dictation (5 letters)</span><span data-lang="zh">字母聽寫（5個）</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Vocab</span><span data-lang="zh">字彙</span></span><span><span data-lang="en">School things</span><span data-lang="zh">學校用品</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Oral</span><span data-lang="zh">口說</span></span><span>What do you want for Christmas? Why?</span></div>
+        <div class="row"><span class="k"><span data-lang="en">Reading</span><span data-lang="zh">閱讀</span></span><span><span data-lang="en">+ Retell: what happened first / last?</span><span data-lang="zh">+ 重述：先發生什麼 / 最後發生什麼？</span></span></div>
+      </div>
+      <div class="week">
+        <div class="week-head"><span class="wk">W8</span><span class="date">12/24</span><span class="wk-title"><span data-lang="en">Christmas Party</span><span data-lang="zh">聖誕派對</span></span><span class="tag review"><span data-lang="en">Review</span><span data-lang="zh">複習</span></span><span class="tag check"><span data-lang="en">Mini check 2</span><span data-lang="zh">小檢核2</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Phonics</span><span data-lang="zh">發音</span></span><span><span data-lang="en">Mixed first / middle / last sound games</span><span data-lang="zh">首音 / 母音 / 尾音綜合遊戲</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Letters</span><span data-lang="zh">字母</span></span><span><span data-lang="en">Letter dictation (5 letters)</span><span data-lang="zh">字母聽寫（5個）</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Vocab</span><span data-lang="zh">字彙</span></span><span><span data-lang="en">Christmas</span><span data-lang="zh">聖誕節</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Oral</span><span data-lang="zh">口說</span></span><span>What do you do at Christmas? (2–3 sentences)</span></div>
+        <div class="row"><span class="k"><span data-lang="en">Reading</span><span data-lang="zh">閱讀</span></span><span><span data-lang="en">Christmas story + 3 questions</span><span data-lang="zh">聖誕故事 + 3個問題</span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p3">
+    <div class="phase-head"><span class="pt"><span data-lang="en">Phase 3 — Reading &amp; Speaking</span><span data-lang="zh">第三階段 — 閱讀與口說</span></span><span class="pd">1/7 – 1/21</span></div>
+    <div class="phase-goal"><span data-lang="en">New content: ar / or and ai / ay — patterns kids meet often in short stories. Reading shifts from listening to the child reading aloud with you, then alone.</span><span data-lang="zh">新內容：ar / or 與 ai / ay——短篇故事中常見的拼讀規則。閱讀從聽故事，轉為孩子和老師一起唸，再到獨立閱讀。</span></div>
+    <div class="weeks">
+      <div class="break"><span data-lang="en">12/31 — No class · New Year's Eve</span><span data-lang="zh">12/31 — 停課 · 跨年夜</span></div>
+      <div class="week">
+        <div class="week-head"><span class="wk">W9</span><span class="date">1/7</span><span class="wk-title"><span data-lang="en">🎂 Birthday Party</span><span data-lang="zh">🎂 生日派對</span></span><span class="tag new"><span data-lang="en">New</span><span data-lang="zh">新內容</span></span><span class="tag check"><span data-lang="en">Birthday special</span><span data-lang="zh">生日特別課</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Phonics</span><span data-lang="zh">發音</span></span><span><span data-lang="en">ar / or (party, card, star, fork, corn)</span><span data-lang="zh">ar / or（party、card、star、fork、corn）</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Letters</span><span data-lang="zh">字母</span></span><span><span data-lang="en">Alphabet order: what comes next?</span><span data-lang="zh">字母順序：下一個是什麼？</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Vocab</span><span data-lang="zh">字彙</span></span><span><span data-lang="en">Birthday &amp; party (cake, candle, balloon, gift, card)</span><span data-lang="zh">生日與派對（cake、candle、balloon、gift、card）</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Oral</span><span data-lang="zh">口說</span></span><span>When is your birthday? What did you do on your birthday?</span></div>
+        <div class="row"><span class="k"><span data-lang="en">Reading</span><span data-lang="zh">閱讀</span></span><span><span data-lang="en">Shared reading: a birthday story read together + 3 questions</span><span data-lang="zh">共讀：一起唸生日主題故事 + 3個問題</span></span></div>
+      </div>
+      <div class="week">
+        <div class="week-head"><span class="wk">W10</span><span class="date">1/14</span><span class="wk-title"><span data-lang="en">Weather Reporter</span><span data-lang="zh">氣象主播</span></span><span class="tag new"><span data-lang="en">New</span><span data-lang="zh">新內容</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Phonics</span><span data-lang="zh">發音</span></span><span><span data-lang="en">Vowel teams ai / ay (rain, rainy, gray, day)</span><span data-lang="zh">母音組合 ai / ay（rain、rainy、gray、day）</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Letters</span><span data-lang="zh">字母</span></span><span><span data-lang="en">Letter dictation (5 letters)</span><span data-lang="zh">字母聽寫（5個）</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Vocab</span><span data-lang="zh">字彙</span></span><span><span data-lang="en">Weather</span><span data-lang="zh">天氣</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Oral</span><span data-lang="zh">口說</span></span><span>What's the weather like today? What do you wear when it rains?</span></div>
+        <div class="row"><span class="k"><span data-lang="en">Reading</span><span data-lang="zh">閱讀</span></span><span><span data-lang="en">Shared reading: child reads a short story with you + 3 questions</span><span data-lang="zh">共讀：孩子和老師一起唸短篇故事 + 3個問題</span></span></div>
+      </div>
+      <div class="week">
+        <div class="week-head"><span class="wk">W11</span><span class="date">1/21</span><span class="wk-title"><span data-lang="en">Action Charades</span><span data-lang="zh">比手畫腳</span></span><span class="tag review"><span data-lang="en">Review</span><span data-lang="zh">複習</span></span><span class="tag check"><span data-lang="en">Mini check 3</span><span data-lang="zh">小檢核3</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Phonics</span><span data-lang="zh">發音</span></span><span><span data-lang="en">Spelling simple words from dictation</span><span data-lang="zh">簡單單字聽寫</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Letters</span><span data-lang="zh">字母</span></span><span><span data-lang="en">Writing whole words, not just letters</span><span data-lang="zh">書寫完整單字，不只是字母</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Vocab</span><span data-lang="zh">字彙</span></span><span><span data-lang="en">Actions</span><span data-lang="zh">動作</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Oral</span><span data-lang="zh">口說</span></span><span>What can you do? What can't you do? — I can ___, but I can't ___.</span></div>
+        <div class="row"><span class="k"><span data-lang="en">Reading</span><span data-lang="zh">閱讀</span></span><span><span data-lang="en">Child reads a short story alone + 3 questions</span><span data-lang="zh">孩子獨立閱讀短篇故事 + 3個問題</span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p4">
+    <div class="phase-head"><span class="pt"><span data-lang="en">Phase 4 — Exam Ready</span><span data-lang="zh">第四階段 — 考前準備</span></span><span class="pd">1/28 – 2/18</span></div>
+    <div class="phase-goal"><span data-lang="en">Mock tests in the full exam format, fix the weak spots they show, and build confidence with an exam-day practice run.</span><span data-lang="zh">以完整考試題型進行模擬測驗，針對弱點加強，並用考試當天的模擬演練建立信心。</span></div>
+    <div class="weeks">
+      <div class="week">
+        <div class="week-head"><span class="wk">W12</span><span class="date">1/28</span><span class="wk-title"><span data-lang="en">Detective Exam</span><span data-lang="zh">偵探大考驗</span></span><span class="tag mock"><span data-lang="en">Mock 1</span><span data-lang="zh">模擬測驗1</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Phonics</span><span data-lang="zh">發音</span></span><span><span data-lang="en">Mock test 1 (all 5 areas) + go over gaps</span><span data-lang="zh">模擬測驗1（五大項目）+ 檢討弱點</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Letters</span><span data-lang="zh">字母</span></span><span><span data-lang="en">Part of mock test</span><span data-lang="zh">包含在模擬測驗中</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Vocab</span><span data-lang="zh">字彙</span></span><span><span data-lang="en">Review all themes</span><span data-lang="zh">複習所有主題</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Oral</span><span data-lang="zh">口說</span></span><span><span data-lang="en">Interview role-play</span><span data-lang="zh">面試角色扮演</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Reading</span><span data-lang="zh">閱讀</span></span><span><span data-lang="en">Mock reading section</span><span data-lang="zh">模擬閱讀測驗</span></span></div>
+      </div>
+      <div class="break"><span data-lang="en">2/4 — No class · Lunar New Year break (2/4 – 2/10)</span><span data-lang="zh">2/4 — 停課 · 農曆春節連假（2/4 – 2/10）</span></div>
+      <div class="week">
+        <div class="week-head"><span class="wk">W13</span><span class="date">2/11</span><span class="wk-title"><span data-lang="en">Red Envelope Game</span><span data-lang="zh">紅包遊戲</span></span><span class="tag mock"><span data-lang="en">Mock 2</span><span data-lang="zh">模擬測驗2</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Phonics</span><span data-lang="zh">發音</span></span><span><span data-lang="en">Targeted review of weak areas + mock test 2</span><span data-lang="zh">弱點加強 + 模擬測驗2</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Letters</span><span data-lang="zh">字母</span></span><span><span data-lang="en">Letters they still miss</span><span data-lang="zh">加強仍不熟的字母</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Vocab</span><span data-lang="zh">字彙</span></span><span><span data-lang="en">Lunar New Year</span><span data-lang="zh">農曆新年</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Oral</span><span data-lang="zh">口說</span></span><span><span data-lang="en">Interview role-play</span><span data-lang="zh">面試角色扮演</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Reading</span><span data-lang="zh">閱讀</span></span><span><span data-lang="en">Independent story + questions</span><span data-lang="zh">獨立閱讀 + 問題</span></span></div>
+      </div>
+      <div class="week">
+        <div class="week-head"><span class="wk">W14</span><span class="date">2/18</span><span class="wk-title"><span data-lang="en">Graduation Day</span><span data-lang="zh">畢業典禮</span></span><span class="tag review"><span data-lang="en">Review</span><span data-lang="zh">複習</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Phonics</span><span data-lang="zh">發音</span></span><span><span data-lang="en">Light review + exam-day practice run</span><span data-lang="zh">輕鬆複習 + 考試當天模擬演練</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Letters</span><span data-lang="zh">字母</span></span><span><span data-lang="en">Quick check</span><span data-lang="zh">快速檢查</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Vocab</span><span data-lang="zh">字彙</span></span><span><span data-lang="en">Review</span><span data-lang="zh">複習</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Oral</span><span data-lang="zh">口說</span></span><span><span data-lang="en">Full interview</span><span data-lang="zh">完整面試演練</span></span></div>
+        <div class="row"><span class="k"><span data-lang="en">Reading</span><span data-lang="zh">閱讀</span></span><span><span data-lang="en">Favorite story read-aloud + celebration</span><span data-lang="zh">朗讀最喜歡的故事 + 慶祝</span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip" style="margin-top:8px;">
+    <span data-lang="en">📝 <strong>Checks:</strong> mini checks (W3, W8, W11) are run as games, not tests. Mock tests (W12, W13) use the full exam format. After each check, adjust the next weeks' review time toward the weakest area.</span>
+    <span data-lang="zh">📝 <strong>檢核說明：</strong>小檢核（第3、8、11週）以遊戲方式進行，不像考試。模擬測驗（第12、13週）使用完整考試題型。每次檢核後，將接下來幾週的複習時間調整到最弱的項目。</span>
+  </div>
+
+  <div class="footer">
+    <span data-lang="en">Exam-Prep Program 11/5 – 2/18 · Tyson &amp; Keira · 2026–2027</span>
+    <span data-lang="zh">入學檢測準備課程 11/5 – 2/18 · Tyson &amp; Keira · 2026–2027</span>
+  </div>
+</div>
+<script>
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
+  }
+</script>
+</body>
+</html>
